@@ -1,4 +1,4 @@
 embedded
 ========
 
-Embedded übungsaufgaben
+Embedded Übungsaufgaben
