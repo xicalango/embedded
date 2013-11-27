@@ -1,0 +1,65 @@
+module Blinker:
+  input LEFT, RIGHT, HAZ;
+  output LA, LB, LC, RA, RB, RC;
+  var i : integer in 
+
+  loop
+    present
+      case LEFT do
+        i := 3;
+	abort
+		loop
+		  i := i-1;
+
+		  if i < 3 then emit LA end;
+		  if i < 2 then emit LB end;
+		  if i < 1 then 
+			emit LC;
+			i := 4;
+		  end;
+
+		  pause;
+
+		end loop;
+	when [not LEFT]
+      case RIGHT do
+        i := 3;
+	abort
+		loop
+		  i := i - 1;
+
+		  if i < 3 then emit RA end;
+		  if i < 2 then emit RB end;
+		  if i < 1 then 
+			emit RC;
+			i := 4;
+		  end;
+
+		  pause;
+		end loop;
+	when [not RIGHT]
+      case HAZ do
+        i := 3;
+        abort
+		loop
+		  i := i - 1;
+
+		  if i < 3 then emit LA; emit RA; end;
+		  if i < 2 then emit LB; emit RB; end;
+		  if i < 1 then
+			emit LC;
+			emit RC;
+			i := 4;
+		  end;
+
+		  pause;
+		end loop;
+        when [not HAZ]
+    end present;
+    pause;
+  end loop;
+
+  end var
+
+end module
+
