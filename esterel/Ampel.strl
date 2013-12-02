@@ -2,60 +2,35 @@ module Ampel:
 	input SEC, C;
 	output MANY := 2 : integer, FEW := 0 : integer;
 
-	var clock := 0 : integer in
+	emit MANY(2);
+	emit FEW(0);
 
-		loop
-			clock := 0;
-	
-			trap TIME in
-				every SEC do
-					clock := clock + 1;
-					if clock = 8 then exit TIME end;
-				end every;
-			end trap;
+	loop
 
-			await C;
+		await 8 SEC;
+		
+		await C;
 
-			emit MANY(1);
-			clock := 0;
+		emit MANY(1);
 
-			trap TIME in
-				every SEC do
-					clock := clock + 1;
-					if clock = 3 then exit TIME end;
-				end;
-			end;
+		await 3 SEC;
 
-			emit MANY(0);
-			emit FEW(2);
+		emit MANY(0);
+		emit FEW(2);
 
-			clock := 0;
+		abort
+			await 8 SEC;
+		when [not C];
 
-			abort
-				trap TIME in
-					every SEC do
-						clock := clock + 1;
-						if clock = 8 then exit TIME end;
-					end;
-				end;
-			when [not C];
+		emit FEW(1);
 
-			emit FEW(1);
-			clock := 0;
+		await SEC;
 
-			trap TIME in
-				every SEC do
-					clock := clock + 1;
-					if clock = 3 then exit TIME end;
-				end;
-			end;
+		emit FEW(0);
+		emit MANY(2);
 
-			emit FEW(0);
-			emit MANY(2);
+	end loop;
 
-		end loop;
-
-	end var;
 
 end module
 

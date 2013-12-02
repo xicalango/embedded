@@ -18,7 +18,7 @@ module Blinker:
 			i := 4;
 		  end;
 
-		  pause;
+%		  pause;
 
 		end loop;
 	when [not LEFT]
